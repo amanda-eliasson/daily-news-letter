@@ -9,6 +9,7 @@ from news_report.scraper.scraper_constants import TMP_DIR, GPT_MODEL_NAME
 from news_report.email_sender import EmailSender
 from news_report.news_report_models import NewsReportOutput
 
+
 class NewsReportCreator:
     def __init__(self):
         Path(TMP_DIR).mkdir(parents=True, exist_ok=True)
@@ -21,13 +22,19 @@ class NewsReportCreator:
             content = f.read()
         return content
 
-    def scrape_news_and_generate_article_and_send_email(self, recipient_emails: list[str]):
+    def scrape_news_and_generate_article_and_send_email(
+        self, recipient_emails: list[str]
+    ):
         scrape_omni(self.news_file_path)
         news_content: str = self._load_news_file_content()
         news_report: NewsReportOutput = self.get_article_from_scraped_news(news_content)
         email_content = self.email_sender.pretty_print_news_report(news_report)
         for recipient_email in recipient_emails:
-            self.email_sender.send_email(recipient_email=recipient_email, subject="Your Daily Newsletter in German", body=email_content)
+            self.email_sender.send_email(
+                recipient_email=recipient_email,
+                subject="Your Daily Newsletter in German",
+                body=email_content,
+            )
 
     def get_article_from_scraped_news(self, news_content: str) -> NewsReportOutput:
 
@@ -48,5 +55,3 @@ class NewsReportCreator:
         chain = prompt | self.model | parser
         result = chain.invoke(query)
         return NewsReportOutput(**result)
-
-

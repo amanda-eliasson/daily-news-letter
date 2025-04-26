@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+
 class ShortArticle(BaseModel):
     title: str = Field(default="")
     text: str = Field(default="")

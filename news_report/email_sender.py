@@ -8,20 +8,25 @@ from loguru import logger
 
 from news_report.news_report_models import NewsReportOutput
 
+
 class EmailSender:
     def __init__(self):
-        self.sender_email=os.getenv('SENDER_EMAIL', None)
-        self.sender_password=os.getenv('SENDER_PASSWORD', None)
-        
+        self.sender_email = os.getenv("SENDER_EMAIL", None)
+        self.sender_password = os.getenv("SENDER_PASSWORD", None)
+
         if not (self.sender_email and self.sender_password):
-            raise Exception('You must add environment variables for sender email and password')
-        
+            raise Exception(
+                "You must add environment variables for sender email and password"
+            )
+
     def pretty_print_news_report(self, news_report: NewsReportOutput) -> str:
         html = "<!DOCTYPE html>"
         html += "<html lang='de'>"
         html += "<head>"
         html += "  <meta charset='UTF-8'>"
-        html += "  <meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+        html += (
+            "  <meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+        )
         html += "  <title>Dein täglicher Newsletter</title>"
         html += "  <style>"
         html += "    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }"
@@ -65,15 +70,15 @@ class EmailSender:
         try:
             # Set up the MIME
             message = MIMEMultipart()
-            message['From'] = self.sender_email
-            message['To'] = recipient_email
-            message['Subject'] = subject
+            message["From"] = self.sender_email
+            message["To"] = recipient_email
+            message["Subject"] = subject
 
             # Attach the email body to the message
-            message.attach(MIMEText(body, 'html'))
+            message.attach(MIMEText(body, "html"))
 
             # Connect to the SMTP server
-            with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            with smtplib.SMTP("smtp.gmail.com", 587) as server:
                 # Start TLS (Transport Layer Security) for encryption
                 server.starttls()
 
