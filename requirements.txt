@@ -1,0 +1,7 @@
+beautifulsoup4
+requests
+langchain
+langchain_openai
+loguru
+botocore
+boto3
