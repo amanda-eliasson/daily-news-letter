@@ -6,7 +6,7 @@ The lambda function does 3 things:
 3. creates and HTML template and sends an email with the news articles to the email-recipients
 
 ## Deploy email sender
-### Prerequsisite 
+### Prerequisites
 AWS account is setup and the AWS cli is installed
 
 #### Environment variables
